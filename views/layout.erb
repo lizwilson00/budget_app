@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Budget App</title>
+    <meta charset="utf-8">
+    <link href="/budget.css" rel="stylesheet" type="text/css">
+    <script src="/javascripts/jquery-3.6.1.js"></script>
+    <script src="/javascripts/application.js"></script>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  </head>
+  <body>
+    <header>
+      <h1>Budget App</h1>
+      <div class="actions">
+        <%== yield_content :header_links %>
+      </div>
+    </header>
+
+    <% if session[:message] %>
+      <ul>
+        <li class="message">
+          <p><%= session.delete(:message) %></p>
+        </li>
+      </ul>
+    <% end %>
+    
+    <main>
+      <%== yield %>
+    </main>
+  </body>
+</html>
