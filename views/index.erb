@@ -2,7 +2,7 @@
   <a class="add" href="/add">Add new expense</a>
 <% end %>
 
-<% if session[:expenses].size > 0 %>
+<% if @all_data.size > 0 %>
   <ul>
     <li>
       <% if @yearly_flg %>
@@ -14,28 +14,32 @@
       <% end %>
     </li>
   </ul>
-  <% categories_hash.each do |category_name, expenses| %>
+<% @all_data.each do |category| %>
   <ul id="expenses">
-    <li class="category"><%= category_name %></li>
-    <% expenses.each do |expense| %>
+    <li class="category"><%= category[:category_name] %></li>
+    <% category[:expenses].each do |expense| %>
       <li>
         <form action="/delete/<%= expense[:expense_id] %>" class="delete" method="post">
           <button type="submit">Delete</button>
         </form>
-          <%= expense[:name] %>
+          <%= expense[:expense_name] %>
           <a class="edit smfont" href="/edit/<%= expense[:expense_id] %>">Edit</a>
         <p class="amt">
           <% if @yearly_flg %>
-            <%= display_currency(expense[:amount] * 12) %>
+            <%= display_currency(expense[:monthly_amt].to_f * 12) %>
           <% else %>
-            <%= display_currency(expense[:amount]) %>
+            <%= display_currency(expense[:monthly_amt].to_f) %>
           <% end %>
         </p>
       </li>
     <% end %>
     <li class="subtotal">
-      <%= category_name %> Total
-      <div><%= display_currency(subtotal(category_name)) %></div>
+      <%= category[:category_name] %> Total
+      <% if @yearly_flg %>
+        <div><%= display_currency(subtotal(category) * 12) %></div>
+      <% else %>
+        <div><%= display_currency(subtotal(category)) %></div>
+      <% end %>
     </li>
   </ul>
   <% end %>
@@ -43,10 +47,10 @@
     <li class="total">
     <% if @yearly_flg %>
       <p>Yearly Total</p>
-      <p><%= display_currency(yearly_total(session[:expenses])) %></p>
+      <p><%= display_currency(yearly_total(@all_expenses)) %></p>
     <% else %>
       <p>Monthly Total</p>
-      <p><%= display_currency(monthly_total(session[:expenses])) %></p>
+      <p><%= display_currency(monthly_total(@all_expenses)) %></p>
     <% end %>
     </li>
   </ul>

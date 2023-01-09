@@ -7,7 +7,7 @@
       <label for="expense_name">Name:</label>
   </li>
   <li>
-        <input name="expense_name" type="text" value="<%= @expense[:name] %>">
+        <input name="expense_name" type="text" value="<%= @expense[:expense_name] %>">
   </li>
   <li>
       <label for="category">Choose a category:</label>
@@ -15,11 +15,11 @@
   <li>
       <select name="category" id="category">
         <option value="">--Please choose an option--</option>
-        <% @categories.each do |category, category_name| %>
-          <% if @expense[:category] == category.to_s %>
-            <option value="<%= category %>" selected><%= category_name %></option>
+        <% @all_categories.each do |category| %>
+          <% if category[:category_id] == @expense[:category_id] %>
+            <option value="<%= category[:category_name] %>" selected><%= category[:category_name] %></option>
           <% else %>
-            <option value="<%= category %>"><%= category_name %></option>
+            <option value="<%= category[:category_name] %>"><%= category[:category_name] %></option>
           <% end %>
         <% end %>
       </select>
@@ -28,7 +28,7 @@
       <label for="expense_amount">Monthly Amount ($):</label>
   </li>
   <li>
-      <input type="number" min="0.01" step="0.01" value="<%= @expense[:amount] %>" name="expense_amount">
+      <input type="number" min="0.01" step="0.01" value="<%= @expense[:monthly_amt] %>" name="expense_amount">
   </li>
       <fieldset>
         <input type="submit" value="Save" class="button">

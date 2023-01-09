@@ -15,8 +15,8 @@
   <li>
       <select name="category" id="category">
         <option value="">--Please choose an option--</option>
-        <% @categories.each do |category, category_name| %>
-          <option value="<%= category %>"><%= category_name %></option>
+        <% @all_categories.each do |category| %>
+          <option value="<%= category[:category_name] %>"><%= category[:category_name] %></option>
         <% end %>
       </select>
   </li>
